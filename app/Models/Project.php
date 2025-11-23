@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
@@ -12,15 +13,39 @@ class Project extends Model
 
     protected $fillable = [
         'title',
-        'description',
     ];
 
     /**
      * Get the tasks for the project.
+     * Completed tasks first, then ordered by priority.
      */
     public function tasks()
     {
-        return $this->hasMany(Task::class)->orderBy('priority', 'asc');
+        return $this->hasMany(Task::class)
+            ->orderByRaw("
+                CASE 
+                    WHEN completed = 1 THEN 0 
+                    ELSE 1 
+                END ASC
+            ")
+            ->orderByRaw("
+                CASE 
+                    WHEN completed = 0 THEN priority 
+                    ELSE updated_at 
+                END ASC
+            ")
+            ->orderBy('updated_at', 'ASC');
+    }
+
+    /**
+     * Get completed tasks for the project.
+     * 
+     * @param bool $completed
+     */
+    public function completedTasks(bool $completed = true)
+    {
+        return $this->tasks()
+            ->where('completed', $completed);
     }
 
     /**
@@ -36,6 +61,8 @@ class Project extends Model
             return 0;
         }
 
-        return $completed_tasks_count / $tasks_count * 100;
+        $completion_percentage = $completed_tasks_count / $tasks_count * 100;
+
+        return Number::percentage($completion_percentage);
     }
 }

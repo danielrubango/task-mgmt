@@ -19,7 +19,7 @@ class TaskFactory extends Factory
     {
         return [
             'project_id' => Project::factory(),
-            'title' => fake()->sentence(3),
+            'title' => rtrim(fake()->sentence(3), '.'),
             // 'description' => fake()->paragraph(3),
             // 'priority' => 0,
             // 'completed' => false,
