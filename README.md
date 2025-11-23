@@ -1,4 +1,4 @@
-# Simple Laravel Task Management App
+# Simple Laravel Task Management App for testing purposes
 
 ## Summary
 This is a simple task management app built with Laravel 12, MySQL, and Tailwind CSS (no Livewire, Inertia.js, Vue.js or React.js). Without authentication, it allows users to create, update, delete, and list projects and tasks.
@@ -32,3 +32,24 @@ Tasks belongs to a projects. Projects can have multiple tasks. Tasks are ordered
 
 ## Usage
 - Open `http://localhost:8000` in your browser
+
+## How to use
+- Click on a project from the dropdown list to select it
+- Click on a project or task title from the list to edit it or click on the edit button to edit it, escape to cancel
+- Click on the delete button to delete a project or task
+- Click on the complete radio button to complete a task
+- Click and hold the drag handle to reorder tasks
+
+## Improvements
+- Error handling when managing projects and tasks
+- Reset the form to the original values when canceling an edit, if there were any changes, ask for confirmation
+- Click everywhere on a task row to edit it
+- Manage description of a project and a task
+- Disable drag and drop for a completed task and hide the drag handle
+- Hide the task row when dragging and show a placeholder
+- Add a modal to confirm deletion
+- Add order column to tasks table and define the priority of a task as High, Medium, Low
+- Disable edit of completed tasks
+- Add authentication
+- Add rate limiting for API requests
+- Create blade components for icons and buttons
